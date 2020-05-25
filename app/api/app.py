@@ -15,7 +15,9 @@ from app.api.common.utils import Avatar
     # urls:一个resource可匹配多个路由（urls）
     # api.add_resource(Ping,'/','/ping')
 api.add_resource(Ping,'/ping')
-api.add_resource(UserAPI,'/user/<int:id>',endpoint='users')
-# api.add_resource(UserlistAPI,'/users',endpoint='users')
+api.add_resource(UserListAPI, '/users', endpoint='users')
+api.add_resource(UserAPI, '/users/<int:id>')
+
+
 api.add_resource(Avatar,'/avatar',endpoint='utils')
 

@@ -1,13 +1,17 @@
 from flask_restful import Resource
 from app.models import User
-from flask_restful import Resource,fields,marshal_with,reqparse
+from flask_restful import Resource,fields,marshal_with,reqparse,inputs
+from app.extensions import db
+
 
 user_fields = {
-    'name':fields.String,
+    # 返回响应的时候用
+    'id':fields.Integer,
+    'username':fields.String,
     'email':fields.String,
-    'password_hash':fields.String,
     'avatar':fields.String
 }
+email_regex = '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
 
 class UserAPI(Resource):
 
@@ -27,10 +31,21 @@ class UserAPI(Resource):
 class UserListAPI(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
+        super(UserListAPI, self).__init__()
     def get(self):
         '''获取用户合集'''
         pass
+    @marshal_with(user_fields)
     def post(self):
         '''新增用户'''
-        self.parser.add_argument(name='name',type=str,location='json',required=True)
-        self.parser.add_argument(name='email',type=str,location='json',required=True)
+        self.parser.add_argument(name='username',type=str,location='json',required=True)
+        self.parser.add_argument(name='email',type=inputs.regex(email_regex),location='json',required=True,help='please provide a valid email.')
+        self.parser.add_argument(name='password',type=str,location='json',required=True,help='Please provide a valid password.')
+        args = self.parser.parse_args()
+        user = User()
+        user.username = args.get('username')
+        user.email = args.get('email')
+        user.set_password(args.get('password'))
+        db.session.add(user)
+        db.session.commit()
+        return user

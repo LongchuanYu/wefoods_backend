@@ -8,9 +8,14 @@ api = Api(bp)
 
 
 from app.api.resources.ping import Ping
-
+from app.api.resources.users import UserAPI,UserListAPI
+from app.api.common.utils import Avatar
 #（？）解读add_resource +
     # add_resource(resource, *urls, **kwargs)
     # urls:一个resource可匹配多个路由（urls）
     # api.add_resource(Ping,'/','/ping')
 api.add_resource(Ping,'/ping')
+api.add_resource(UserAPI,'/user/<int:id>',endpoint='users')
+# api.add_resource(UserlistAPI,'/users',endpoint='users')
+api.add_resource(Avatar,'/avatar',endpoint='utils')
+

@@ -1,5 +1,6 @@
-from app.models import *
-from app import db
+from app.models.base import *
+from app.extensions import db
+from hashlib import md5
 
 class User(db.Model):
     __tablename__='users'
@@ -18,3 +19,10 @@ class User(db.Model):
     # Print
     def __repr__(self):
         return '<User {},{}>'.format(self.id,self.name)
+
+    # Methods
+    def get_avatar(self, size):
+        '''用户头像'''
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+

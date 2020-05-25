@@ -1,5 +1,5 @@
 from app.models.base import *
-from app import db
+from app.extensions import db
 
 class Schedule(db.Model):
     __tablename__='schedules'

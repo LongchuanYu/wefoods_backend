@@ -1,5 +1,5 @@
 from app.models.base import *
-from app import db
+from app.extensions import db
 class Food(db.Model):
     __tablename__='foods'
     id = db.Column(db.Integer,primary_key=True)

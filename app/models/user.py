@@ -40,7 +40,8 @@ class User(db.Model):
     def check_password_byhash(self,password):
         return check_password_hash(self.password_hash,password)
     
-    def get_jwt(self,expires = current_app.config['LOGIN_EXPIRES_IN']):
+    def get_jwt(self,expires = None ):
+        expires = expires if expires else current_app.config['LOGIN_EXPIRES_IN']
         now = datetime.utcnow()
         encoded_jwt = jwt.encode(
             {
@@ -52,8 +53,17 @@ class User(db.Model):
                 'iat':now
             },
             current_app.config['SECRET_KEY'],
-            algorithm=['HS256']
-        )
-
-    def verify_jwt(self,token):
-        pass
+            algorithm="HS256"
+        ).decode('utf-8')
+        return encoded_jwt
+    @staticmethod
+    def verify_jwt(token):
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'],
+            )
+        except (jwt.ExpiredSignatureError,jwt.exceptions.InvalidSignatureError) as e:
+            return False
+        return payload

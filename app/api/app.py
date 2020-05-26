@@ -14,6 +14,8 @@ from app.api.common.utils import Avatar
     # add_resource(resource, *urls, **kwargs)
     # urls:一个resource可匹配多个路由（urls）
     # api.add_resource(Ping,'/','/ping')
+# （？）这里的endpoint是什么？ +
+# 沙雕了，这是指定endpoint名字，格式化响应资源的时候可以用fields.Url('端点名')来引用这条url
 api.add_resource(Ping,'/ping')
 api.add_resource(UserListAPI, '/users', endpoint='users')
 api.add_resource(UserAPI, '/users/<int:id>')

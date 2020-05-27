@@ -23,10 +23,10 @@ def basic_auth_error():
 
 @token_auth.verify_token
 def verify_token(token):
-    payload = User.verify_jwt(token)
-    if not payload:
+    decode_jwt = User.verify_jwt(token) if token else None
+    if not decode_jwt:
         return False
-    g.current_user = User.query.get(payload.get('userid'))
+    g.current_user = User.query.get(decode_jwt.get('userid'))
     return g.current_user is not None
 
 

@@ -12,6 +12,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+# 上传头像
 class Avatar(Resource):
     def post(self):
         parser = reqparse.RequestParser()

@@ -59,11 +59,12 @@ class User(db.Model):
     @staticmethod
     def verify_jwt(token):
         try:
-            payload = jwt.decode(
+            decode_jwt = jwt.decode(
                 token,
                 current_app.config['SECRET_KEY'],
                 algorithms=['HS256'],
             )
         except (jwt.ExpiredSignatureError,jwt.exceptions.InvalidSignatureError) as e:
             return False
-        return payload
+        # 验证jwt没有过期，且有效则把解码后的jwt返回。
+        return decode_jwt

@@ -10,7 +10,9 @@ api = Api(bp)
 from app.api.resources.ping import Ping
 from app.api.resources.users import UserAPI,UserListAPI
 from app.api.resources.tokens import Token
-from app.api.common.utils import Avatar
+from app.api.resources.cookbooks import CookbookAPI,CookbookListAPI
+
+
 
 #（？）解读add_resource +
     # add_resource(resource, *urls, **kwargs)
@@ -29,6 +31,9 @@ api.add_resource(UserAPI, '/users/<int:id>')
 # 获取token
 api.add_resource(Token,'/tokens',endpoint='tokens')
 
-# 上传头像
-api.add_resource(Avatar,'/avatar',endpoint='utils')
+# cookbook
+api.add_resource(CookbookListAPI,'/cookbooks',endpoint='cookbooks')
+api.add_resource(CookbookAPI,'/cookbooks/<int:id>',endpoint='cookbook')
+
+
 

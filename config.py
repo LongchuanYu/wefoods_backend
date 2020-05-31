@@ -8,4 +8,4 @@ class Config(object):
     SECRET_KEY = 'DEV'
     UPLOAD_FOLDER='upload'
 
-    LOGIN_EXPIRES_IN = 36000 #登录的过期时间
+    LOGIN_EXPIRES_IN = 3600 #登录的过期时间

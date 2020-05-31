@@ -1,8 +1,8 @@
 """init
 
-Revision ID: d0d2716ae5cc
+Revision ID: f8ab6758fe2b
 Revises: 
-Create Date: 2020-05-25 22:58:51.570738
+Create Date: 2020-05-30 21:23:09.287628
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd0d2716ae5cc'
+revision = 'f8ab6758fe2b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,14 +39,16 @@ def upgrade():
     op.create_table('cookbooks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=True),
-    sa.Column('image_url', sa.String(length=128), nullable=True),
+    sa.Column('description', sa.String(length=200), nullable=True),
+    sa.Column('imageUrl', sa.String(length=128), nullable=True),
+    sa.Column('step', sa.Text(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('schedule_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['schedule_id'], ['schedules.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_cookbooks_name'), 'cookbooks', ['name'], unique=True)
+    op.create_index(op.f('ix_cookbooks_name'), 'cookbooks', ['name'], unique=False)
     op.create_table('foods',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=20), nullable=True),

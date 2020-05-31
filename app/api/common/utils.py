@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from flask import current_app,request
 from werkzeug.datastructures import FileStorage
 from datetime import datetime
+
 import uuid
 import os
 
@@ -10,12 +11,13 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 
-def upload_cookbooks_imgfile(imgfile):
-    subdir = os.path.join(current_app.config['UPLOAD_FOLDER'],'cookbooks')
+def upload_file(imgfile):
+    dirr = current_app.config['UPLOAD_FOLDER']
     uuidname = str(uuid.uuid3(uuid.NAMESPACE_DNS,imgfile.name+str(datetime.now())))
     imgfile.save(
-        os.path.join(subdir,uuidname)
+        os.path.join(dirr,uuidname)
     )
+    return request.host_url + dirr + '/' + uuidname
 
 # def allowed_file(filename):
 #     return '.' in filename and \

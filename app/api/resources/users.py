@@ -7,7 +7,7 @@ from app.extensions import db
 class fieldsRaw_avatar(fields.Raw):
     def output(self,key,obj):
         #（？）理解自定义输出格式 +
-        # 用user模型来说明，obj指向user，key是user里面定义的字段。
+        # key指对象里面的属性，obj指向这个对象。
         if obj.avatar:
             return obj.avatar
         return obj.generate_avatar(128)

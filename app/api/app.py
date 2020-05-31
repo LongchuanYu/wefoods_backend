@@ -13,7 +13,6 @@ from app.api.resources.tokens import Token
 from app.api.resources.cookbooks import CookbookAPI,CookbookListAPI
 
 
-
 #（？）解读add_resource +
     # add_resource(resource, *urls, **kwargs)
     # urls:一个resource可匹配多个路由（urls）

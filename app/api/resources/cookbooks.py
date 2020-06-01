@@ -24,6 +24,7 @@ cookbook_fields = {
     'imageUrl':fields.String,
     'myfoods':fields.String,
     'step':fields.String,
+    'timestamp':fields.String,
     'author':AuthorRaw
 }
 
@@ -60,7 +61,7 @@ class CookbookListAPI(Resource):
         '''获取菜谱合集'''
         ck = Cookbook()
         page = request.args.get('page',type=int) or 1
-        per_page = request.args.get('per_page',type=int) or 20
+        per_page = request.args.get('per_page',type=int) or 10
         resources = ck.query.order_by(Cookbook.timestamp.desc()).paginate(page,per_page,False)
         return marshal(resources,cookbooks_fields)
 

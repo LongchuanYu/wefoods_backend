@@ -12,8 +12,8 @@ import json
 
 # （？）如何定义嵌套的有关系的输出字段呢？+
 class AuthorRaw(fields.Raw):
-    def output(self,key,cookbook):
-        return marshal(cookbook.users,user_fields)
+    def output(self,key,obj):
+        return marshal(obj.users,user_fields)
 
 
 

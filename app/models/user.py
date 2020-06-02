@@ -6,7 +6,7 @@ from hashlib import md5
 from time import time
 from datetime import datetime,timedelta
 from werkzeug.security import generate_password_hash,check_password_hash
-
+from app.models.exts import Schedule
 
 
 class User(db.Model):
@@ -20,7 +20,7 @@ class User(db.Model):
 
 
     # relationship
-    schedules = db.relationship('Schedule',backref='users',cascade='all, delete-orphan')
+    schedules = db.relationship('Schedule',backref='users',cascade='all, delete-orphan',lazy='dynamic')
     cookbooks = db.relationship('Cookbook',backref='users',lazy='dynamic',cascade='all, delete-orphan')
 
 
@@ -68,3 +68,11 @@ class User(db.Model):
             return False
         # 验证jwt没有过期，且有效则把解码后的jwt返回。
         return decode_jwt
+
+    def initSchedule(self):
+        schedules_list = [
+            Schedule(day=x,users=self) for x in range(1,8)
+        ]
+        db.session.add_all(schedules_list)
+
+        

@@ -14,11 +14,10 @@ class Cookbook(db.Model):
 
     # ForeignKey
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    schedule_id = db.Column(db.Integer,db.ForeignKey('schedules.id'))
 
     # relationship
     foods = db.relationship('Food',backref='cookbooks',lazy='dynamic',cascade='all, delete-orphan')
-
+    schedules = db.relationship('Schedule',backref='cookbooks',lazy='dynamic')
     # Print
     def __repr__(self):
         return '<Cookbook {},{}>'.format(self.id,self.name)

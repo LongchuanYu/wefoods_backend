@@ -34,7 +34,10 @@ class UserAPI(Resource):
         pass
     def delete(self,id):
         '''删除单个用户'''
-        pass
+        user = User.query.get_or_404(id)
+        db.session.delete(user)
+        db.session.commit()
+        return {'message':'Delete Success'},200
 
     
 class UserListAPI(Resource):
@@ -61,6 +64,7 @@ class UserListAPI(Resource):
         user.username = args.get('username')
         user.email = args.get('email')
         user.set_password(args.get('password'))
+        user.initSchedule()
         db.session.add(user)
         db.session.commit()
         return marshal(user,user_fields)

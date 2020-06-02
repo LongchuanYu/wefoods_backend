@@ -10,10 +10,9 @@ class Schedule(db.Model):
 
     # ForeignKey
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    
+    cookbook_id = db.Column(db.Integer,db.ForeignKey('cookbooks.id'))
 
     # relationship
-    cookbooks = db.relationship('Cookbook',uselist=False,backref='schedules')
 
 
     # Print

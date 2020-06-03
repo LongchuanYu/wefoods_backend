@@ -4,6 +4,7 @@ from flask_restful import Resource,fields,marshal_with,reqparse,inputs,marshal
 from app.extensions import db
 from app.api.common.auth import token_auth
 from app.api.resources.users import user_fields
+from app.api.resources.cookbooks import cookbook_fields
 import json
 
 
@@ -17,16 +18,18 @@ class AuthorRaw(fields.Raw):
     def output(self,key,obj):
         return marshal(obj.users,user_fields)
 
-
-class ItemRaw(fields.Raw):
+class CookbookRaw(fields.Raw):
     def output(self,key,obj):
-        z=obj
-        return '1'
+        # 有可能这个schedule是初始化生成的，这时候还没有指定cookbook，因此要进行判断
+        if not obj or not obj.cookbooks:
+            return None
+        return marshal(obj.cookbooks,cookbook_fields)
 
 schedule_fields = {
     'id':fields.Integer,
     'day':fields.Integer,
     'author':AuthorRaw,
+    'cookbook':CookbookRaw
 }
 
 
@@ -60,7 +63,7 @@ class ScheduleListAPI(Resource):
         args = self.parser.parse_args()
         error = {}
         ck = Cookbook.query.get_or_404(args.get('cookbook_id'))
-        sc = g.current_user.schedules.filter_by(day=args.get('day_name'))
+        sc = g.current_user.schedules.filter_by(day=args.get('day_name')).first()
         if not sc:
             error['error'] = 'selected day not found'
         if error:

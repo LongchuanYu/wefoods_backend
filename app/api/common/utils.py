@@ -17,7 +17,7 @@ def upload_file(imgfile):
     imgfile.save(
         os.path.join(dirr,uuidname)
     )
-    return request.host_url + dirr + '/' + uuidname
+    return  dirr + '/' + uuidname
 
 # def allowed_file(filename):
 #     return '.' in filename and \

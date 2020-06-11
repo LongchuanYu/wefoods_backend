@@ -1,5 +1,4 @@
 from app.models.base import Base
-import jwt
 from flask import current_app
 from app.extensions import db
 from hashlib import md5
@@ -7,7 +6,7 @@ from time import time
 from datetime import datetime,timedelta
 from werkzeug.security import generate_password_hash,check_password_hash
 from app.models.exts import Schedule
-
+import jwt
 
 class User(db.Model):
     __tablename__='users'

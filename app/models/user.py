@@ -25,7 +25,7 @@ class User(db.Model):
 
     # Print
     def __repr__(self):
-        return '<User {},{}>'.format(self.id,self.name)
+        return '<User {},{}>'.format(self.id,self.username)
 
     # Methods
     def generate_avatar(self, size):
